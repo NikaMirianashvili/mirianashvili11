@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Registration</title>
+</head>
+<body>
+    <h2>Register New User</h2>
+    <form id="registerform">
+        <label for="email">Email:</label><br>
+        <input type="text" id="email" name="email"><br>
+        <label for="username">Usernname:</label><br>
+        <input type="text" id="username" name="username"><br>
+        <label for="password">Password:</label><br>
+        <input type="password" id="password" name="password"><br>
+        <input type="submit" value="Register">
+    </form>
+    <p id="message"></p>
+    <script>
+        document.getElementById('registerform').addEventListener('submit', function(event) {
+            event.preventDefault();
+            document.getElementById('message').textContent = 'Loading ...';
+            var email = document.getElementById('email').value;
+            var username = document.getElementById('username').value;
+            var password = document.getElementById('password').value;
+            fetch('http://127.0.0.1:8000/users/', {
+                method: 'Post',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    email: email,
+                    username: username,
+                    password: password,
+                }),
+            })
+            .then(response => {
+                document.getElementById('message').textContent = '';
+                if(!response.ok) {
+                    throw new Error('Network response was not ok!');
+                }
+                return response.json();
+            })
+            .then(data => {
+                document.getElementById('message').textContent = 'User successfully registered!';
+            })
+            .catch((error) => {
+                document.getElementById('message').textContent = 'An error occured: ' + error;
+            });
+
+        });
+
+
+
+
+    </script>
+
+
+    
+</body>
+</html>

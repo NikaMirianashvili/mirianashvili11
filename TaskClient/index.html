@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ToDo App</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+    <div id='auth-widget'>
+
+    </div>
+
+    <form action="" method="Post" id="add-task-form">
+        <input id="task-id" type="hidden" name="update-id" value="">
+        <div>
+            <input type="text" name="title" id="task-title" placeholder="Title" class="input">
+        </div>
+        <div>
+            <textarea name="description" id="task-description" placeholder="Description" class="input"></textarea>
+        </div>
+        <div>
+            <button type="submit" id="addtask" data-action="Add">Add Task</button>
+            <button type="submit" id="update-task" data-action="update">Save</button>
+        </div>
+    </form>   
+    
+
+    <ul id="tasklist">
+    </ul>
+
+    
+
+    <script src="jsfolder/crud.js"></script>
+    <script src="jsfolder/app.js"></script>
+    <script src="jsfolder/util.js"></script>
+
+    <script>
+        var widget = document.getElementById('auth-widget');
+
+        function showloggedin(username) {
+            widget.innerHTML = `
+                <h2>Welcome, ${username}!</h2>
+                <button id="logout">Logout</button>
+            `;
+
+            document.getElementById('logout').addEventListener('click', function() {
+                localStorage.removeItem('token');
+                showloggedout();
+            });
+        }
+
+        function showloggedout() {
+            widget.innerHTML = `
+            <h2>Please login or register</h2>
+            <button onclick="window.location.href='/login.html'">Login</button>
+            <button onclick="window.location.href='/register.html'">Register</button>
+            `;
+
+        }
+
+        if (localStorage.getItem('token')) {
+            fetch('http://localhost:8000/users/me/', {
+                method: "GET",
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Token ${localStorage.getItem('token')}`
+
+                },
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.json();
+            })
+            .then(data => {
+                showloggedin(data.username);
+            })
+            .catch((error) => {
+                console.error('Error:', error);
+                showloggedout();
+            });
+
+        } else {
+            showloggedout();
+        }
+
+
+
+    </script>
+    
+</body>
+</html>

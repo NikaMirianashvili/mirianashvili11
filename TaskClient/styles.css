@@ -1,0 +1,25 @@
+
+.input {
+    margin-bottom: 10px;
+}
+
+#addtask {
+    display: inline;
+}
+
+#update-task {
+    display: inline;
+}
+
+.editing-task #addtask{
+    display: none;
+}
+
+.editing-task #update-task{
+    display: inline;
+}
+
+#auth-widget {
+    margin-bottom: 50px;
+
+}
