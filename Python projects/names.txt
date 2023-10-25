@@ -1,0 +1,7 @@
+name,house
+nika,naxalovka
+sali,wereteli
+tamuna,lanchvali
+
+mariami,vake
+mariami,vake
