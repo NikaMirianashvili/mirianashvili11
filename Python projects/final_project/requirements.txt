@@ -1,0 +1,4 @@
+#required pip packages and their versions
+random2 1.0.1
+regex 
+IntEnum from enum 
